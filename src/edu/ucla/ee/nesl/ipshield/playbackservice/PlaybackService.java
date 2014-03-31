@@ -1,4 +1,4 @@
-package com.example.playback;
+package edu.ucla.ee.nesl.ipshield.playbackservice;
 
 import android.app.Service;
 import android.content.Context;
@@ -7,10 +7,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-public class playbackservice extends Service implements SensorEventListener{
+public class PlaybackService extends Service implements SensorEventListener{
 	private static String tag = "playbackservice";
 	private SensorManager msensormanager;
 	private Sensor macc;
@@ -80,6 +81,9 @@ public class playbackservice extends Service implements SensorEventListener{
 		msensormanager.registerListener(this, mlight, SensorManager.SENSOR_DELAY_FASTEST);
 //		i = 0; k = 1;
 //		SensorEvent event = new SensorEvent();
+		Bundle data = intent.getExtras();
+		data.getString("FILE_NAME");
+		
 		return 0;
 	}
 }

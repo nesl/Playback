@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.playback.MainActivity"
+            android:name="edu.ucla.ee.nesl.ipshield.playbackservice.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name="com.example.playback.playbackservice"
+            android:name="edu.ucla.ee.nesl.ipshield.playbackservice.PlaybackService"
             android:label="@string/app_name" >
         </service>
     </application>
