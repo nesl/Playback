@@ -4,9 +4,6 @@ import android.content.Context;
 
 public class SensorType {
 	public static final int GPS_ID = 18;
-	private static final int DBID_UNDEFINED = -1;
-	private Context context;
-	private int dbId; // the sensors ID in our database
 	private int androidId; // the sensor type constant according to android
 	private String name = null;
 	private String file = null;
@@ -39,7 +36,7 @@ public class SensorType {
 		/* 0x04 */ new AndroidSensorIdData("Gyroscope", new String[]{"X", "Y", "Z"}, new String[]{"rad/s", "rad/s", "rad/s"}),
 		/* 0x05 */ new AndroidSensorIdData("Light", new String[]{"Illuminance"}, new String[]{"lx"}),
 		/* 0x06 */ new AndroidSensorIdData("Pressure", new String[]{"Pressure"}, new String[]{"millibars"}),
-		/* 0x07 */ new AndroidSensorIdData("Temperature (deprecated)", new String[]{}, new String[]{}), // deprecated for TYPE_AMBIENT_TEMPERATURE
+		/* 0x07 */ new AndroidSensorIdData("Temperature", new String[]{}, new String[]{}), // deprecated for TYPE_AMBIENT_TEMPERATURE
 		/* 0x08 */ new AndroidSensorIdData("Proximity", new String[]{"Distance"}, new String[]{"cm"}),
 		/* 0x09 */ new AndroidSensorIdData("Gravity", new String[]{"X", "Y", "Z"}, new String[]{"m/s\u00b2", "m/s\u00b2", "m/s\u00b2"}),
 		/* 0x0a */ new AndroidSensorIdData("Linear acceleration", new String[]{"X", "Y", "Z"}, new String[]{"m/s\u00b2", "m/s\u00b2", "m/s\u00b2"}),
@@ -77,8 +74,6 @@ public class SensorType {
 	public static SensorType defineFromAndroid (int androidId, Context _context) { // {{{
 		SensorType st = new SensorType();
 		st.androidId = androidId;
-		st.dbId = DBID_UNDEFINED;
-		st.context = _context;
 		st.name = androidSensorIdData[st.androidId].sensorName;
 
 		return st;

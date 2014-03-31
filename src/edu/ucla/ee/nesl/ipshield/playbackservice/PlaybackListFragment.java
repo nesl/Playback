@@ -22,7 +22,7 @@ public class PlaybackListFragment extends ListFragment {
 	
 	private void initSensorList() {
 		sensorList = new ArrayList<SensorType>();
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 18; i++) {
 			sensorList.add(SensorType.defineFromAndroid(i, context));
 		}
 	}

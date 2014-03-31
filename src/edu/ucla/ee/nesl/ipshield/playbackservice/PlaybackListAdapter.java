@@ -8,8 +8,6 @@ import com.example.playback.R;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,16 +38,16 @@ public class PlaybackListAdapter extends ArrayAdapter<SensorType> implements OnC
         TextView titleView = (TextView) rowView.findViewById(R.id.playback_list_entry_name);
         TextView subTitleView = (TextView) rowView.findViewById(R.id.playback_list_entry_filename);
         Button bt = (Button) rowView.findViewById(R.id.playback_list_entry_select);
-        Button btc = (Button) rowView.findViewById(R.id.playback_list_entry_cancel);
+       // Button btc = (Button) rowView.findViewById(R.id.playback_list_entry_cancel);
         titleView.setText(sensorList.get(position).getName());
         String fileName = sensorList.get(position).getFile();
         subTitleView.setText(fileName == null ? "No file selected." : fileName);
         bt.setText("Select File");
         bt.setTag(position);
-        btc.setText("Stop Playing");
-        btc.setTag(position);
+       // btc.setText("Stop Playing");
+       // btc.setTag(position);
         bt.setOnClickListener(this);
-        btc.setOnClickListener(this);
+       // btc.setOnClickListener(this);
         return rowView;
 	}
 
@@ -62,34 +60,21 @@ public class PlaybackListAdapter extends ArrayAdapter<SensorType> implements OnC
 			dialog.addListener(new FileChooserDialog.OnFileSelectedListener() {
 		         public void onFileSelected(Dialog source, File file) {
 		             source.hide();
-		             sensorList.get(curPosition).setFile(file.getAbsolutePath() + file.getName());
+		             sensorList.get(curPosition).setFile(file.getAbsolutePath());
 		             self.notifyDataSetChanged();
 		             
 		             // start to play data
 		             //PlaybackService.startPlay(file.getAbsolutePath() + file.getName(), curPosition);
-		             Intent i = new Intent(context, PlaybackService.class);
-		             Bundle data = new Bundle();
-		             data.putString("FILE_NAME", file.getAbsolutePath() + file.getName());
-		             data.putInt("SENSOR_ID", curPosition);
-		             i.putExtras(data);
-		             context.startService(i);
-		             
+		             ((MainActivity) context).setBuffer(file.getAbsolutePath(), curPosition + 1);
+		             	             
 		             Toast toast = Toast.makeText(source.getContext(), "File selected: " + file.getName(), Toast.LENGTH_LONG);
 		             toast.show();
 		         }
 		         public void onFileSelected(Dialog source, File folder, String name) {
-		             source.hide();
-		             sensorList.get(curPosition).setFile(folder.getName() + "/" + name);
-		             self.notifyDataSetChanged();
-		             Toast toast = Toast.makeText(source.getContext(), "File created: " + folder.getName() + "/" + name, Toast.LENGTH_LONG);
-		             toast.show();
+
 		         }
 		     });
 		    dialog.show();
-		}
-		else if (v.getId() == R.id.playback_list_entry_cancel) {
-            // stop playing data
-            //PlaybackService.stopPlay(curPosition);
 		}
 	}
 }
