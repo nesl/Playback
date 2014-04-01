@@ -26,14 +26,21 @@
         android:orientation="vertical"
         android:id="@+id/list_placeholder"
 	    android:layout_width="fill_parent"
-	    android:layout_height="350dp"
+	    android:layout_height="340dp"
 
 	    />
     
     <Button
         android:id="@+id/start_play"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
      	android:layout_width="fill_parent"
      	android:layout_height="wrap_content"
-     	android:text="@string/button"/>
+     	android:text="@string/start"/>
+    
+    <Button
+        android:id="@+id/stop_play"
+        android:layout_marginTop="2dp"
+     	android:layout_width="fill_parent"
+     	android:layout_height="wrap_content"
+     	android:text="@string/stop"/>
 </LinearLayout>

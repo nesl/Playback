@@ -41,6 +41,7 @@ public class PlaybackService extends Service implements SensorEventListener{
 			sensorBuffer.add(new ArrayList<SensorVector>());
 			count[i] = 0;
 		}
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		return mBinder;
 	}
 	
@@ -99,6 +100,19 @@ public class PlaybackService extends Service implements SensorEventListener{
 		Log.i(TAG, "sensor=" + sensorID + ", data count=" + count[sensorID]);
 	}
 	
+	public void startPlay() {
+		for (int sensorID = 1; sensorID < 18; sensorID++) {
+			if (count[sensorID] > 0) {
+				Sensor mSensor = mSensorManager.getDefaultSensor(sensorID);
+				mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+			}
+		}		
+	}
+	
+	public void stopPlay() {
+		mSensorManager.unregisterListener(this);
+	}
+	
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		
@@ -133,19 +147,5 @@ public class PlaybackService extends Service implements SensorEventListener{
 			j = j + 1;
 
 		}*/
-	}
-
-
-	
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {		
-		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		for (int sensorID = 1; sensorID < 18; sensorID++) {
-			if (count[sensorID] > 0) {
-				Sensor mSensor = mSensorManager.getDefaultSensor(sensorID);
-				mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-			}
-		}		
-		return 0;
 	}
 }

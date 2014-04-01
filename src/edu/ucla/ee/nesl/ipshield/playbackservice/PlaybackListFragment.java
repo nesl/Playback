@@ -23,7 +23,9 @@ public class PlaybackListFragment extends ListFragment {
 	private void initSensorList() {
 		sensorList = new ArrayList<SensorType>();
 		for (int i = 1; i <= 18; i++) {
-			sensorList.add(SensorType.defineFromAndroid(i, context));
+			SensorType st = SensorType.defineFromAndroid(i, context);
+			st.setFile(((MainActivity) context).source.get(i));
+			sensorList.add(st);
 		}
 	}
 
