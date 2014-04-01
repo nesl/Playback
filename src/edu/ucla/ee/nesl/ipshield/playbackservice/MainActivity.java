@@ -22,14 +22,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
-import com.example.playback.R;
-
 import edu.ucla.ee.nesl.ipshield.playbackservice.PlaybackService.LocalBinder;
 
 public class MainActivity extends FragmentActivity implements OnClickListener{
 	private final static String TAG = "PlaybackMainActivity";
-	private final static String SOURCEFILE = Environment.getExternalStorageDirectory().getAbsolutePath() + "playback_source";
+	private final static String SOURCEFILE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/playback_source";
 	PlaybackService mService;
     boolean mBound = false;
     
@@ -42,6 +39,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
             LocalBinder binder = (LocalBinder) service;
             mService = binder.getService();
             mBound = true;
+            
+            for (int i = 0; i <= 17; i++) {
+            	String str = source.get(i + 1);
+            	if (str != null && !str.equals("null")) {
+            		if (mBound) {
+            			mService.setBuffer(source.get(i + 1), i + 1);
+            		}
+            	}
+            }
         }
 
         @Override
@@ -56,44 +62,38 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+        source = new ArrayList<String>();
+        for (int i = 0; i <= 19; i++) {
+        	source.add("null");
+		}
+		
 		Button start = (Button)findViewById(R.id.start_play);
 		start.setOnClickListener(this);
 		
 		Button stop = (Button)findViewById(R.id.stop_play);
 		stop.setOnClickListener(this);
-		
-		FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.list_placeholder, new PlaybackListFragment());
-        fragmentTransaction.commit();
-        
-        source = new ArrayList<String>();
-        source.add("null for sensor#0");
 	}
     
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = new Intent(this, PlaybackService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
     }
     
     @Override
     protected void onStop() {
         super.onStop();
-        if (mBound) {
-            unbindService(mConnection);
-            mBound = false;
-        }
+
     }
     
     @Override
     protected void onPause() {
     	super.onPause();
+    	//Log.i(TAG, "on paused called!");
     	try {
 			BufferedWriter output = new BufferedWriter(new FileWriter(SOURCEFILE));
-			for (int i = 0; i < 17; i++) {
-				output.write(source.get(i + 1));
+			for (int i = 0; i <= 17; i++) {
+				output.write(source.get(i + 1) + "\n");
 			}
 			output.close();
 		} catch (FileNotFoundException e) {
@@ -101,6 +101,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
     }
     
     @Override
@@ -108,8 +113,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
     	super.onResume();
     	try {
 			BufferedReader input = new BufferedReader(new FileReader(SOURCEFILE));
-			for (int i = 0; i < 17; i++) {
-				source.add(input.readLine());
+			for (int i = 0; i <= 17; i++) {
+				source.set((i + 1), input.readLine());
 			}
 			input.close();
 		} catch (FileNotFoundException e) {
@@ -117,6 +122,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	
+		FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.list_placeholder, new PlaybackListFragment());
+        fragmentTransaction.commit();
+        
+        Intent intent = new Intent(this, PlaybackService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
 	@Override

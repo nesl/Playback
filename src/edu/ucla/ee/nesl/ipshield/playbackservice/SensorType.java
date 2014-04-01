@@ -50,6 +50,10 @@ public class SensorType {
 		/* 0x12 */ new AndroidSensorIdData("GPS", new String[]{"Latitute", "Longitude"}, new String[]{"unitless", "unitless"})
 	}; // }}}
 
+	public static int getDimension(int sensorID) {
+		return androidSensorIdData[sensorID].valueNames.length;
+	}
+	
 	@Override public boolean equals (Object obj) { // {{{
 		if (obj == this) {
 			return true;

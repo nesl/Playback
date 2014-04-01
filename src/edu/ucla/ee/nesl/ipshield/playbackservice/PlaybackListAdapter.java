@@ -3,9 +3,6 @@ package edu.ucla.ee.nesl.ipshield.playbackservice;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.playback.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -37,11 +34,12 @@ public class PlaybackListAdapter extends ArrayAdapter<SensorType> implements OnC
         View rowView = inflater.inflate(R.layout.playback_list_entry, parent, false);
         TextView titleView = (TextView) rowView.findViewById(R.id.playback_list_entry_name);
         TextView subTitleView = (TextView) rowView.findViewById(R.id.playback_list_entry_filename);
+        
         Button bt = (Button) rowView.findViewById(R.id.playback_list_entry_select);
        // Button btc = (Button) rowView.findViewById(R.id.playback_list_entry_cancel);
         titleView.setText(sensorList.get(position).getName());
         String fileName = sensorList.get(position).getFile();
-        subTitleView.setText(fileName == null ? "No file selected." : fileName);
+        subTitleView.setText(fileName == null || fileName.equals("null") ? "No file selected." : fileName);
         bt.setText("Select File");
         bt.setTag(position);
        // btc.setText("Stop Playing");
