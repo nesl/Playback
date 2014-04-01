@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 
 
 public class PlaybackListFragment extends ListFragment {
@@ -27,9 +26,9 @@ public class PlaybackListFragment extends ListFragment {
 		sensorList = new ArrayList<SensorType>();
 		for (int i = 1; i <= 18; i++) {
 			SensorType st = SensorType.defineFromAndroid(i, context);
-			st.setFile(((MainActivity) activity).source.get(i));
+			//st.setFile(((MainActivity) activity).source.get(i));
 			sensorList.add(st);
-			Log.i("listfrag", st.getName());
+			//Log.i("listfrag", st.getName());
 		}
 	}
 	
