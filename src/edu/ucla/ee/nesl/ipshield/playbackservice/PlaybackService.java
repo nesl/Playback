@@ -141,16 +141,6 @@ public class PlaybackService extends Service implements SensorEventListener{
 		}, 1000);
 	}
 	
-/*	private void registerLocationManager() {
-
-		
-		if (l.getProvider() == "playback")
-			Log.i(TAG, "yes playback");
-		else
-			Log.i(TAG, "no playback");
-//		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-	}*/
-	
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		
